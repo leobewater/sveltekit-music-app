@@ -8,11 +8,6 @@
 	$: user = data.user;
 </script>
 
-<!-- {#if user}
-	<p>Hello {user.display_name}</p>
-	<LogoutButton />
-{/if} -->
-
 <div id="main">
 	<div id="content">
 		<main id="main-content">
