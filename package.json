@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@unsass/breakpoint": "^2.4.0",
 		"modern-normalize": "^2.0.0"
 	}
 }
