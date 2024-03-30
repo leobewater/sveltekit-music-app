@@ -1,6 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 
+// run on both client and server side
 export const load: LayoutLoad = ({ data, url }) => {
 	// extra user profile , user can be undefined
 	const { user } = data || {};

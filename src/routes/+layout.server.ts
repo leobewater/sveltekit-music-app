@@ -1,9 +1,11 @@
 import type { LayoutServerLoad } from './$types';
 import { SPOTIFY_BASE_URL } from '$env/static/private';
+import { redirect } from '@sveltejs/kit';
 
-export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
-	// get access token from cookie
+export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
+	// get tokens from cookie
 	const accessToken = cookies.get('access_token');
+	const refreshToken = cookies.get('refresh_token');
 
 	if (!accessToken) {
 		return {
@@ -23,6 +25,18 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
 
 		return {
 			user: profile
+		};
+	}
+
+	if (profileRes.status === 401 && refreshToken) {
+		// refresh the token and try again, if ok, redirect to the previous url
+		const refreshRes = await fetch('/api/auth/refresh');
+		if (refreshRes.ok) {
+			throw redirect(307, url.pathname);
+		}
+
+		return {
+			user: null
 		};
 	} else {
 		return {
