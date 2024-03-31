@@ -3,6 +3,7 @@
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
 	import { Navigation, Header } from '$components';
+	import { page } from '$app/stores';
 
 	let topbar: HTMLElement;
 	let scrollY: number;
@@ -20,6 +21,10 @@
 </script>
 
 <svelte:window bind:scrollY />
+
+<svelte:head>
+	<title>Spotify{$page.data.title ? ` - ${$page.data.title}` : ''}</title>
+</svelte:head>
 
 <div id="main">
 	{#if user}
