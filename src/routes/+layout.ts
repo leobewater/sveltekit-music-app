@@ -10,12 +10,12 @@ export const load: LayoutLoad = ({ data, url }) => {
 
 	// if there is a user, but on the login page, redirect to the homepage
 	if (user && url.pathname === '/login') {
-		throw redirect(307, '/');
+		redirect(307, '/');
 	}
 
 	// if no user, redirect to the login page
 	if (!user && url.pathname !== '/login') {
-		throw redirect(307, '/login');
+		redirect(307, '/login');
 	}
 
 	return {

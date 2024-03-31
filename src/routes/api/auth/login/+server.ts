@@ -20,7 +20,7 @@ export const GET: RequestHandler = ({ cookies }) => {
 	cookies.set('spotify_auth_state', state, { path: '/' });
 	cookies.set('spotify_auth_challenge_verifier', challenge.code_verifier, { path: '/' });
 
-	throw redirect(
+	redirect(
 		307,
 		`https://accounts.spotify.com/authorize?${new URLSearchParams({
 			response_type: 'code',

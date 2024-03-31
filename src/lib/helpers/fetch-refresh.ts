@@ -19,7 +19,7 @@ export default async function fetchRefresh(
 			});
 		}
 		const refreshRes = await window.refreshPromise;
-		if (!refreshRes.ok) throw error(401, 'Session Expired!');
+		if (!refreshRes.ok) error(401, 'Session Expired!');
 
 		return fetch(path);
 	} else {
