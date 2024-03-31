@@ -31,6 +31,7 @@
 
 	beforeNavigate(() => {
 		NProgress.start();
+    // close all tippy opened menus
 		hideAll();
 	});
 </script>
