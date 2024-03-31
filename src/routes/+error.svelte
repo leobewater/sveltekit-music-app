@@ -6,7 +6,7 @@
 
 	let isRetrying: boolean = false;
 
-	const retryRoutes = ['/album/[id]'];
+	const retryRoutes = ['/album/[id]', '/playlist/[id]'];
 </script>
 
 <svelte:head>
