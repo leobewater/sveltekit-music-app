@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 </script>
 <!-- form will use action when JS is disabled otherwise use submit() and invalidate page without full refresh -->

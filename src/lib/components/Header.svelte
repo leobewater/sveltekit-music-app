@@ -1,13 +1,16 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { Navigation } from '$components';
 
 </script>
 
 <div class="content">
 	<div class="left">
-    <Navigation desktop={false} />
-  </div>
-	<div class="right">RIght</div>
+		{#if browser}
+			<Navigation desktop={false} />
+		{/if}
+	</div>
+	<div class="right">Right</div>
 </div>
 
 <style lang="scss">
