@@ -1,5 +1,11 @@
+<script lang="ts" context="module">
+	// use context module and share the "current" variable
+	let current: HTMLAudioElement;
+</script>
+
 <script lang="ts">
 	import { Pause, Play } from 'lucide-svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	type Track = SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified;
 
@@ -7,10 +13,39 @@
 
 	let audio: HTMLAudioElement;
 	let paused: boolean = true;
+
+	// Set up dispatch with type
+	const dispatch = createEventDispatcher<{
+		play: { track: Track };
+		pause: { track: Track };
+	}>();
+
+	function onPlay() {
+		// pause the current playing audio and reset position to 0
+		if (current && current !== audio) {
+			current.currentTime = 0;
+			current.pause();
+		}
+		// play the current track
+		current = audio;
+		dispatch('play', { track });
+	}
+
+	function onPause() {
+		dispatch('pause', { track });
+	}
 </script>
 
 <div class="player">
-	<audio bind:this={audio} bind:paused controls src={track.preview_url} preload="none" />
+	<audio
+		on:play={onPlay}
+		on:pause={onPause}
+		bind:this={audio}
+		bind:paused
+		controls
+		src={track.preview_url}
+		preload="none"
+	/>
 	<button
 		aria-label={paused ? `Play ${track.name}` : `Pause ${track.name}`}
 		on:click={() => {
