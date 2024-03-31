@@ -1,12 +1,21 @@
-import tippy, { type Props } from 'tippy.js';
+import tippy, {
+	type ExtendedProps,
+	hideOnEsc,
+	hideOnPopperBlur,
+	hideOthersOnOpen
+} from './tippy-plugins';
 import 'tippy.js/dist/tippy.css';
 
-export default function (node: HTMLElement, options?: Partial<Props>) {
-	const instance = tippy(node, options);
+export default function (node: HTMLElement, options?: Partial<ExtendedProps>) {
+	const plugins = [hideOnEsc, hideOnPopperBlur, hideOthersOnOpen];
+	// if no options passed use plugins
+	const _options = options ? { ...options, plugins } : { plugins };
+	const instance = tippy(node, _options);
 
 	return {
-		update(newOptions: Partial<Props>) {
-			instance.setProps(newOptions);
+		update(newOptions: Partial<ExtendedProps>) {
+			const _newOptions = newOptions ? { ...newOptions, plugins } : { plugins };
+			instance.setProps(_newOptions);
 		},
 		destroy() {
 			instance.destroy();
