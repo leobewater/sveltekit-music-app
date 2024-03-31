@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Player } from '$components';
 	import { msToTime } from '$helpers';
 	import { Clock8, ListPlus } from 'lucide-svelte';
 
@@ -23,6 +24,9 @@
 		<div class="row">
 			<div class="number-column">
 				<div class="number">{index + 1}</div>
+				<div class="player">
+					<Player {track} />
+				</div>
 			</div>
 			<div class="info-column">
 				<div class="track-title">
