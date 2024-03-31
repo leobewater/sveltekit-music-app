@@ -3,7 +3,9 @@ import type { LayoutLoad } from './$types';
 
 // run on both client and server side
 export const load: LayoutLoad = ({ data, url }) => {
-	// extra user profile , user can be undefined
+  // console.log("LOAD UNIVERSAL");
+	
+  // extra user profile , user can be undefined
 	const { user } = data || {};
 
 	// if there is a user, but on the login page, redirect to the homepage

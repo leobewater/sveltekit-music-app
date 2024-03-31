@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch, parent }) => {
+  // console.log('PAGE LOAD');
 	const { user } = await parent();
 
 	// let fetch them in parallel without awaiting

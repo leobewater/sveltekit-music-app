@@ -3,7 +3,9 @@ import { SPOTIFY_BASE_URL } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
-	// get tokens from cookie
+  // console.log("LOAD.SERVER");
+	
+  // get tokens from cookie
 	const accessToken = cookies.get('access_token');
 	const refreshToken = cookies.get('refresh_token');
 
