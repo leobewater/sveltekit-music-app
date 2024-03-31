@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Button } from '$components';
 	import logo from '$assets/Spotify_Logo_RGB_White.png';
 	import cover from '$assets/cover.png';
