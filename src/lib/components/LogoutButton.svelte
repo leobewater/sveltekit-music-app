@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
+	import { Button } from '$components';
 </script>
 <!-- form will use action when JS is disabled otherwise use submit() and invalidate page without full refresh -->
 <form
@@ -19,5 +20,5 @@
 		}
 	}}
 >
-	<button type="submit">Logout</button>
+	<Button element="button" type="submit">Logout</Button>
 </form>
