@@ -1,7 +1,11 @@
 import type { PageLoad } from './$types';
+import { fetchRefresh } from '$helpers';
 
-export const load: PageLoad = async ({ fetch, parent }) => {
-  // console.log('PAGE LOAD');
+export const load: PageLoad = async ({ fetch: _fetch, parent }) => {
+	// console.log('PAGE LOAD');
+
+  // override fetch function with our own
+	const fetch = (path: string) => fetchRefresh(_fetch, path);
 	const { user } = await parent();
 
 	// let fetch them in parallel without awaiting

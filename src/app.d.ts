@@ -10,7 +10,18 @@ declare global {
 		}
 		// interface PageState {}
 		// interface Platform {}
+		// interface Window {
+		// 	refreshPromise?: Promise<Response> | null;
+		// }
 	}
+}
+
+// interface Window extends globalThis.Window {
+// 	refreshPromise: Promise<Response> | null;
+// }
+
+declare interface Window {
+	refreshPromise: Promise<Response> | null;
 }
 
 export {};
