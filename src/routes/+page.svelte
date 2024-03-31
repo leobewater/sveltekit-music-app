@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$components';
+	import { Button, Card } from '$components';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -66,9 +66,8 @@
 		</div>
 		<div class="grid-items">
 			{#each section.items as item}
-				<div class="grid-item" style="background-color: black;">
-					<h5>{item.type}</h5>
-					<h3>{item.name}</h3>
+				<div class="grid-item">
+					<Card item={item} />
 				</div>
 			{/each}
 		</div>
