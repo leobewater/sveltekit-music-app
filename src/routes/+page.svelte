@@ -16,7 +16,7 @@
 		if (data.newReleases) {
 			sections.push({
 				title: 'New Releases',
-				path: '/section/new-releases',
+				path: '/sections/new-releases',
 				items: data.newReleases.albums.items
 			});
 		}
@@ -24,7 +24,7 @@
 		if (data.featuredPlaylists) {
 			sections.push({
 				title: 'Featured Playlists',
-				path: '/section/featured-playlists',
+				path: '/sections/featured-playlists',
 				items: data.featuredPlaylists.playlists.items
 			});
 		}
@@ -58,7 +58,7 @@
 			<div class="right">
 				<h2 class="section-title">{section.title}</h2>
 			</div>
-			<div class="lef">
+			<div class="left">
 				<Button element="a" href={section.path} variant="outline"
 					>See All <span class="visually-hidden">{section.title}</span></Button
 				>
@@ -67,7 +67,7 @@
 		<div class="grid-items">
 			{#each section.items as item}
 				<div class="grid-item">
-					<Card item={item} />
+					<Card {item} />
 				</div>
 			{/each}
 		</div>
@@ -76,6 +76,7 @@
 
 <style lang="scss">
 	.content-row {
+		margin-bottom: 40px;
 		.content-row-header {
 			display: flex;
 			align-items: center;
