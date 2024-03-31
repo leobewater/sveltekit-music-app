@@ -15,7 +15,7 @@ export const GET: RequestHandler = async ({ fetch, cookies, params, url }) => {
 	// console.log(responseJSON);
 
 	if (responseJSON.error) {
-		throw error(responseJSON.error.status, responseJSON.error.message);
+		error(responseJSON.error.status, responseJSON.error.message);
 	}
 
 	return json(responseJSON);

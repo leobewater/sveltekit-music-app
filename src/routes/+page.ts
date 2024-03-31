@@ -4,7 +4,7 @@ import { fetchRefresh } from '$helpers';
 export const load: PageLoad = async ({ fetch: _fetch, parent }) => {
 	// console.log('PAGE LOAD');
 
-  // override fetch function with our own
+	// override fetch function with our own
 	const fetch = (path: string) => fetchRefresh(_fetch, path);
 	const { user } = await parent();
 
@@ -30,21 +30,21 @@ export const load: PageLoad = async ({ fetch: _fetch, parent }) => {
 		await Promise.all([newReleases, featuredPlaylists, userPlaylists, ...randomCatsPromises]);
 	// console.log(randomCatsRes);
 
+	// cast them with the spotify types
 	return {
-		// cast them with the spotify types using Promise<> since not using await here
 		newReleases: newReleasesRes.ok
-			? (newReleasesRes.json() as Promise<SpotifyApi.ListOfNewReleasesResponse>)
+			? ((await newReleasesRes.json()) as SpotifyApi.ListOfNewReleasesResponse)
 			: undefined,
 		featuredPlaylists: featuredPlaylistsRes.ok
-			? (featuredPlaylistsRes.json() as Promise<SpotifyApi.ListOfFeaturedPlaylistsResponse>)
+			? ((await featuredPlaylistsRes.json()) as SpotifyApi.ListOfFeaturedPlaylistsResponse)
 			: undefined,
 		userPlaylists: userPlaylistsRes.ok
-			? (userPlaylistsRes.json() as Promise<SpotifyApi.ListOfUsersPlaylistsResponse>)
+			? ((await userPlaylistsRes.json()) as SpotifyApi.ListOfUsersPlaylistsResponse)
 			: undefined,
 		homeCategories: randomCats,
-		categoriesPlaylists: Promise.all(
-			randomCatsRes.map((res) =>
-				res.ok ? (res.json() as Promise<SpotifyApi.CategoryPlaylistsResponse>) : undefined
+		categoriesPlaylists: await Promise.all(
+			randomCatsRes.map(async (res) =>
+				res.ok ? ((await res.json()) as SpotifyApi.CategoryPlaylistsResponse) : undefined
 			)
 		)
 	};
