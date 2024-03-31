@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { Navigation } from '$components';
+	import { LogoutButton, Navigation } from '$components';
 	import { page } from '$app/stores';
 	import { ChevronDown, ExternalLink } from 'lucide-svelte';
 	import { tippy } from '$actions';
-	import LogoutButton from '$components/LogoutButton.svelte';
 
 	$: user = $page.data.user;
 </script>
@@ -30,7 +29,8 @@
 					trigger: 'click',
 					placement: 'bottom-end',
 					interactive: true,
-					theme: 'menu'
+					theme: 'menu',
+					hideOnPopperBlur: true
 				}}
 			>
 				{#if user?.images && user.images.length > 0}
@@ -48,7 +48,7 @@
 							>View on Spotify <ExternalLink focusable="false" aria-hidden size={20} /></a
 						>
 					</li>
-					<li><a href="/profile">Profile</a></li>
+					<li><a href="/profile">View Profile</a></li>
 					<li><LogoutButton /></li>
 				</ul>
 			</div>
@@ -62,6 +62,11 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		:global(html.no-js) & {
+			@include breakpoint.down('md') {
+				justify-content: flex-start;
+			}
+		}
 	}
 	.profile-button {
 		background: none;
@@ -72,6 +77,9 @@
 		align-items: center;
 		color: var(--text-color);
 		cursor: pointer;
+		:global(html.no-js) & {
+			display: none;
+		}
 		:global(.profile-arrow) {
 			margin-left: 3px;
 		}
@@ -107,10 +115,22 @@
 					border: none;
 					text-decoration: none;
 					cursor: pointer;
-					color: var(--text-color);
+					color: var(--menu-text-color);
 					width: 100%;
 					text-align: left;
 					font-size: functions.toRem(14);
+				}
+			}
+		}
+	}
+	:global(html.no-js) #profile-menu {
+		display: block !important;
+		.profile-menu-content {
+			ul {
+				padding: 0;
+				margin: 0;
+				li {
+					display: inline-block;
 				}
 			}
 		}
