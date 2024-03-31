@@ -32,5 +32,4 @@ export const GET: RequestHandler = ({ cookies }) => {
 			code_challenge: challenge.code_challenge
 		})}`
 	);
-	return new Response('some text');
 };
