@@ -2,6 +2,10 @@
 	import { Player } from '$components';
 	import { msToTime } from '$helpers';
 	import { Clock8, ListPlus } from 'lucide-svelte';
+	import playingGif from '$assets/playing.gif';
+
+	let currentlyPlaying: string | null = null;
+	let isPaused: boolean = false;
 
 	export let tracks: SpotifyApi.TrackObjectFull[] | SpotifyApi.TrackObjectSimplified[];
 </script>
@@ -9,7 +13,7 @@
 <div class="tracks">
 	<div class="row header">
 		<div class="number-column">
-			<div class="number">#</div>
+			<span class="number">#</span>
 		</div>
 		<div class="info-column">
 			<span class="track-title">Title</span>
@@ -19,19 +23,23 @@
 		</div>
 		<div class="actions-column" />
 	</div>
-
 	{#each tracks as track, index}
-		<div class="row">
+		<div class="row" class:is-current={currentlyPlaying === track.id}>
 			<div class="number-column">
-				<div class="number">{index + 1}</div>
+				{#if currentlyPlaying === track.id && !isPaused}
+					<img class="playing-gif" src={playingGif} alt="" />
+				{:else}
+					<span class="number">{index + 1}</span>
+				{/if}
 				<div class="player">
 					<Player
 						{track}
 						on:play={(e) => {
-							console.log(e.detail.track);
+							currentlyPlaying = e.detail.track.id;
+							isPaused = false;
 						}}
 						on:pause={(e) => {
-							console.log(e.detail.track);
+							isPaused = e.detail.track.id === currentlyPlaying;
 						}}
 					/>
 				</div>
@@ -45,7 +53,7 @@
 				</div>
 				<p class="artists">
 					{#each track.artists as artist, artistIndex}
-						<a href="/artist/${artist.id}">{artist.name}</a
+						<a href="/artist/{artist.id}">{artist.name}</a
 						>{#if artistIndex < track.artists.length - 1}{', '}{/if}
 					{/each}
 				</p>
@@ -67,6 +75,12 @@
 			align-items: center;
 			padding: 7px 5px;
 			border-radius: 4px;
+			&.is-current {
+				.info-column .track-title h4,
+				.number-column span.number {
+					color: var(--accent-color);
+				}
+			}
 			&.header {
 				border-bottom: 1px solid var(--border);
 				border-radius: 0px;
@@ -85,6 +99,15 @@
 			&:not(.header) {
 				&:hover {
 					background-color: rgba(255, 255, 255, 0.05);
+					.number-column {
+						.player {
+							display: block;
+						}
+						span.number,
+						.playing-gif {
+							display: none;
+						}
+					}
 				}
 			}
 			.number-column {
@@ -95,6 +118,12 @@
 				span.number {
 					color: var(--light-gray);
 					font-size: functions.toRem(14);
+				}
+				.playing-gif {
+					width: 12px;
+				}
+				.player {
+					display: none;
 				}
 			}
 			.info-column {
