@@ -59,8 +59,34 @@
 				<h2 class="section-title">{section.title}</h2>
 			</div>
 			<div class="lef">
-				<Button element="a" href={section.path} variant="outline">See All</Button>
+				<Button element="a" href={section.path} variant="outline"
+					>See All <span class="visually-hidden">{section.title}</span></Button
+				>
 			</div>
+		</div>
+		<div class="grid-items">
+			{#each section.items as item}
+				<div class="grid-item" style="background-color: black;">
+					<h5>{item.type}</h5>
+					<h3>{item.name}</h3>
+				</div>
+			{/each}
 		</div>
 	</section>
 {/each}
+
+<style lang="scss">
+	.content-row {
+		.content-row-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 20px;
+			.section-title {
+				font-size: functions.toRem(22);
+				font-weight: 600;
+				margin: 0;
+			}
+		}
+	}
+</style>
