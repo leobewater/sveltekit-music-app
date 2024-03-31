@@ -1,9 +1,15 @@
 <script lang="ts">
+	import { Navigation, Header } from '$components';
+	import { page } from '$app/stores';
+	import NProgress from 'nprogress';
+	import { hideAll } from 'tippy.js';
+	import 'nprogress/nprogress.css';
 	import 'modern-normalize/modern-normalize.css';
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
-	import { Navigation, Header } from '$components';
-	import { page } from '$app/stores';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
+
+	NProgress.configure({ showSpinner: false });
 
 	let topbar: HTMLElement;
 	let scrollY: number;
@@ -18,6 +24,15 @@
 	// $: console.log(scrollY, topbar && topbar.offsetHeight);
 
 	$: user = data.user;
+
+	afterNavigate(() => {
+		NProgress.done();
+	});
+
+	beforeNavigate(() => {
+		NProgress.start();
+		hideAll();
+	});
 </script>
 
 <svelte:window bind:scrollY />
