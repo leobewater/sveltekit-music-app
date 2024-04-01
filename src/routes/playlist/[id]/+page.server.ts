@@ -12,7 +12,9 @@ export const actions: Actions = {
 		});
 
 		if (!res.ok) {
-			return fail(res.status, { followError: res.statusText });
+			// add followForm to true since the /playlist/[id]/+page uses two forms
+			// this would help identify the response
+			return fail(res.status, { followError: res.statusText, followForm: true });
 		}
 	},
 	unFollowPlaylist: async ({ cookies, params, fetch }) => {
@@ -24,7 +26,7 @@ export const actions: Actions = {
 		});
 
 		if (!res.ok) {
-			return fail(res.status, { followError: res.statusText });
+			return fail(res.status, { followError: res.statusText, followForm: true });
 		}
 	}
 };
