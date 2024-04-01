@@ -4,6 +4,8 @@
 	import { Heart } from 'lucide-svelte';
 	import type { ActionData, PageData } from './$types';
 	import { applyAction, enhance } from '$app/forms';
+	import { toasts } from '$stores';
+	import { tick } from 'svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -44,7 +46,7 @@
 			// append tracks to the computed tracks
 			tracks = { ...resJSON, items: [...tracks.items, ...resJSON.items] };
 		} else {
-			alert(resJSON.error.message || 'Could not load data!');
+			toasts.error(resJSON.error.message || 'Could not load data!');
 		}
 		isLoading = false;
 	};
@@ -81,11 +83,16 @@
 						// use applyAction() without the refresh the whole page in this case
 						isLoadingFollow = false;
 						// update();
-						await applyAction(result);
-						followButton.focus();
 						if (result.type === 'success') {
+							await applyAction(result);
 							isFollowing = !isFollowing;
-						}
+						} else if (result.type === 'failure') {
+							toasts.error(result.data?.followError);
+							await tick();
+						} else {
+              await applyAction(result);
+            }
+						followButton.focus();
 					};
 				}}
 			>

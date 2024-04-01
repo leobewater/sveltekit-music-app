@@ -48,11 +48,7 @@
 {/if}
 
 <Toasts />
-<button
-	on:click={() => {
-		toasts.error('Message');
-	}}>Add toast</button
->
+
 
 <div id="main">
 	{#if user}
