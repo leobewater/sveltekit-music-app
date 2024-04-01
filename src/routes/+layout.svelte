@@ -8,9 +8,14 @@
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
-	import { toasts } from '$stores';
+	import MicroModal from 'micromodal';
+	import { browser } from '$app/environment';
 
 	NProgress.configure({ showSpinner: false });
+
+	if (browser) {
+		MicroModal.init();
+	}
 
 	let topbar: HTMLElement;
 	let scrollY: number;
@@ -48,7 +53,6 @@
 {/if}
 
 <Toasts />
-
 
 <div id="main">
 	{#if user}
