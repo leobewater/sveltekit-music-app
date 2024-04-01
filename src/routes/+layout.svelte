@@ -8,6 +8,7 @@
 	import '../styles/main.scss';
 	import type { LayoutData } from './$types';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { toasts } from '$stores';
 
 	NProgress.configure({ showSpinner: false });
 
@@ -47,6 +48,11 @@
 {/if}
 
 <Toasts />
+<button
+	on:click={() => {
+		toasts.error('Message');
+	}}>Add toast</button
+>
 
 <div id="main">
 	{#if user}
