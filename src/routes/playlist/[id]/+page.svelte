@@ -5,7 +5,6 @@
 	import type { ActionData, PageData } from './$types';
 	import { applyAction, enhance } from '$app/forms';
 	import { toasts } from '$stores';
-	import { tick } from 'svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -56,7 +55,7 @@
 	title={playlist.name}
 	type={playlist.type}
 	{color}
-	image={playlist.images.length > 0 ? playlist.images[0].url : undefined}
+	image={playlist.images && playlist.images.length > 0 ? playlist.images[0].url : undefined}
 >
 	<div slot="meta">
 		<p class="playlist-description">{@html playlist.description}</p>
@@ -88,7 +87,6 @@
 							isFollowing = !isFollowing;
 						} else if (result.type === 'failure') {
 							toasts.error(result.data?.followError);
-							await tick();
 						} else {
               await applyAction(result);
             }
