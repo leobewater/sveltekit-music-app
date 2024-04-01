@@ -20,12 +20,18 @@
 	export let variant: 'solid' | 'outline' | 'danger' = 'solid';
 	export let className: string = '';
 
-	// using svelte:element to use dyanmic html tag
+	let node: HTMLAnchorElement | HTMLButtonElement;
+	export function focus() {
+		node.focus();
+	}
+
+	// using svelte:element to use dynamic html tag
 	// $$restProps
 </script>
 
 <svelte:element
 	this={element}
+	bind:this={node}
 	class="button button-{variant} {className}"
 	on:click
 	{...$$restProps}
