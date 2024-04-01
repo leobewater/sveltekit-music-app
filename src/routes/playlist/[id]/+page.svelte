@@ -10,6 +10,7 @@
 
 	let isLoading: boolean = false;
 	let isLoadingFollow: boolean = false;
+	let followButton: Button<'button'>;
 
 	// $: console.log(data);
 	$: color = data.color;
@@ -75,19 +76,26 @@
 				use:enhance={() => {
 					isLoadingFollow = true;
 
-					return ({ result }) => {
+					return async ({ result }) => {
 						// when done do this, update() is to enforce the native form errors
 						// use applyAction() without the refresh the whole page in this case
 						isLoadingFollow = false;
 						// update();
-						applyAction(result);
+						await applyAction(result);
+						followButton.focus();
 						if (result.type === 'success') {
 							isFollowing = !isFollowing;
 						}
 					};
 				}}
 			>
-				<Button element="button" type="submit" variant="outline" disabled={isLoadingFollow}>
+				<Button
+					bind:this={followButton}
+					element="button"
+					type="submit"
+					variant="outline"
+					disabled={isLoadingFollow}
+				>
 					<Heart aria-hidden focusable="false" fill={isFollowing ? 'var(--text-color)' : 'none'} />
 					{isFollowing ? 'Unfollow' : 'Follow'}
 					<span class="visually-hidden">{playlist.name} playlist</span>
