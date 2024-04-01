@@ -1,10 +1,13 @@
 <script lang="ts">
-	import { Button, Card, Modal, Pagination } from '$components';
+	import { Button, Card, Modal, Pagination, PlaylistForm } from '$components';
 	import { toasts } from '$stores';
 	import MicroModal from 'micromodal';
 	import type { PageData } from './$types';
+	import type { ActionData } from './new/$types';
 
 	export let data: PageData;
+	export let form: ActionData;
+
 	let isLoading: boolean;
 
 	$: playlists = data.userPlaylists;
@@ -50,7 +53,9 @@
 	{/if}
 </div>
 
-<Modal id="add-playlist-modal" title="Add a New Playlist">Some Content</Modal>
+<Modal id="add-playlist-modal" title="Add a New Playlist">
+	<PlaylistForm {form} userID={data.user?.id} action="/playlists/new" />
+</Modal>
 
 <style lang="scss">
 	.content {
