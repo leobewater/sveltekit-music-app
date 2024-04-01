@@ -68,7 +68,9 @@
 
 	<div class="playlist-actions">
 		{#if data.user?.id === playlist.owner.id}
-			<Button element="a" variant="outline">Edit Playlist</Button>
+			<Button element="a" variant="outline" href="/playlist/{playlist.id}/edit"
+				>Edit Playlist</Button
+			>
 		{:else if isFollowing !== null}
 			<form
 				class="follow-form"
@@ -88,8 +90,8 @@
 						} else if (result.type === 'failure') {
 							toasts.error(result.data?.followError);
 						} else {
-              await applyAction(result);
-            }
+							await applyAction(result);
+						}
 						followButton.focus();
 					};
 				}}
