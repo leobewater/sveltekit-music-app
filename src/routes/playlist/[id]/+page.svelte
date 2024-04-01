@@ -3,11 +3,13 @@
 	import { Button, ItemPage, TrackList } from '$components';
 	import { Heart } from 'lucide-svelte';
 	import type { ActionData, PageData } from './$types';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
 	export let form: ActionData;
 
 	let isLoading: boolean = false;
+	let isLoadingFollow: boolean = false;
 
 	// $: console.log(data);
 	$: color = data.color;
@@ -70,8 +72,17 @@
 				class="follow-form"
 				method="POST"
 				action={`?/${isFollowing ? 'unFollowPlaylist' : 'followPlaylist'}`}
+				use:enhance={() => {
+					isLoadingFollow = true;
+
+					return ({ update }) => {
+						// when done do this, update is to enforce the native form errors
+						isLoadingFollow = false;
+						update();
+					};
+				}}
 			>
-				<Button element="button" type="submit" variant="outline">
+				<Button element="button" type="submit" variant="outline" disabled={isLoadingFollow}>
 					<Heart aria-hidden focusable="false" fill={isFollowing ? 'var(--text-color)' : 'none'} />
 					{isFollowing ? 'Unfollow' : 'Follow'}
 					<span class="visually-hidden">{playlist.name} playlist</span>
