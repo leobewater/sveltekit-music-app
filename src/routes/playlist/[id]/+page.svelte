@@ -3,7 +3,7 @@
 	import { Button, ItemPage, TrackList } from '$components';
 	import { Heart } from 'lucide-svelte';
 	import type { ActionData, PageData } from './$types';
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -75,10 +75,15 @@
 				use:enhance={() => {
 					isLoadingFollow = true;
 
-					return ({ update }) => {
-						// when done do this, update is to enforce the native form errors
+					return ({ result }) => {
+						// when done do this, update() is to enforce the native form errors
+						// use applyAction() without the refresh the whole page in this case
 						isLoadingFollow = false;
-						update();
+						// update();
+						applyAction(result);
+						if (result.type === 'success') {
+							isFollowing = !isFollowing;
+						}
 					};
 				}}
 			>
