@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { Button, ItemPage, TrackList } from '$components';
 	import { Heart } from 'lucide-svelte';
+	import { tick } from 'svelte';
 	import type { ActionData, PageData } from './$types';
 	import { applyAction, enhance } from '$app/forms';
 	import { toasts } from '$stores';
@@ -89,6 +90,7 @@
 							isFollowing = !isFollowing;
 						} else if (result.type === 'failure') {
 							toasts.error(result.data?.followError);
+							await tick();
 						} else {
 							await applyAction(result);
 						}

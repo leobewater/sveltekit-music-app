@@ -3,12 +3,11 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-	default: async ({ fetch, request, cookies }) => {
+	default: async ({ fetch, request, cookies, url, params }) => {
 		const data = await request.formData();
 
 		const name = data.get('name');
 		const description = data.get('description');
-		const userID = data.get('userID');
 
 		// required name
 		if (!name) {
@@ -20,12 +19,13 @@ export const actions: Actions = {
 			});
 		}
 
-		const res = await fetch(`${SPOTIFY_BASE_URL}/users/${userID}/playlists`, {
-			method: 'POST',
+		const res = await fetch(`${SPOTIFY_BASE_URL}/playlists/${params.id}`, {
+			method: 'PUT',
 			headers: {
-				Authorization: `Bearer ${cookies.get('access_token')}`
+				Authorization: `Bearer ${cookies.get('access_token')}`,
+				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ name, description })
+			body: JSON.stringify({ name, description: description || undefined })
 		});
 
 		if (!res.ok) {
@@ -37,8 +37,9 @@ export const actions: Actions = {
 				nameError: false
 			});
 		} else {
-			const resJSON: SpotifyApi.CreatePlaylistResponse = await res.json();
-			redirect(303, `/playlist/${resJSON.id}`);
+      if (url.searchParams.has('redirect')) {
+				redirect(303, `/playlist/${params.id}`);
+			}
 		}
 	}
 };
