@@ -3,6 +3,12 @@
 	import type { ActionData as AddActionData } from '../../routes/playlists/new/$types';
 	import type { ActionData as EditActionData } from '../../routes/playlist/[id]/edit/$types';
 	import { applyAction, enhance } from '$app/forms';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher<{
+		success: {};
+		redirect: {};
+	}>();
 
 	let isLoading: boolean = false;
 
@@ -23,6 +29,12 @@
 		return async ({ result }) => {
 			await applyAction(result);
 			isLoading = false;
+			if (result.type === 'success') {
+				dispatch('success', {});
+			}
+			if (result.type === 'redirect') {
+				dispatch('redirect', {});
+			}
 		};
 	}}
 >
