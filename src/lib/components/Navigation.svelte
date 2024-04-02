@@ -8,6 +8,7 @@
 	import { beforeNavigate } from '$app/navigation';
 
 	export let desktop: boolean;
+  export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 
 	// state to keep track navigation is for mobile or desktop
 	let isMobileMenuOpen = false;

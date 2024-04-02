@@ -5,6 +5,8 @@
 	import { ChevronDown, ExternalLink } from 'lucide-svelte';
 	import { tippy } from '$actions';
 
+	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
+
 	$: user = $page.data.user;
 </script>
 
@@ -120,7 +122,7 @@
 					text-align: left;
 					font-size: functions.toRem(14);
 					border-radius: 0;
-          font-weight: 400;
+					font-weight: 400;
 					&:hover {
 						background-image: none;
 					}
