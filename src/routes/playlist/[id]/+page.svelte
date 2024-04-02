@@ -8,7 +8,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { toasts } from '$stores';
 	import MicroModal from 'micromodal';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
 	export let form: ActionData | EditActionData;
@@ -174,7 +174,8 @@
 		form={form && 'editForm' in form ? form : null}
 		on:success={() => {
 			MicroModal.close('edit-playlist-modal');
-      invalidate(`/api/spotify/playlists/${playlist.id}`)
+			// invalidate(`/api/spotify/playlists/${playlist.id}`)
+			invalidateAll();
 		}}
 	/>
 </Modal>
