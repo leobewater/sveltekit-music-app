@@ -3,9 +3,9 @@ import { SPOTIFY_BASE_URL } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
-  // console.log("LOAD.SERVER");
-	
-  // get tokens from cookie
+	// console.log("LOAD.SERVER");
+
+	// get tokens from cookie
 	const accessToken = cookies.get('access_token');
 	const refreshToken = cookies.get('refresh_token');
 
@@ -25,8 +25,19 @@ export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
 	if (profileRes.ok) {
 		const profile: SpotifyApi.CurrentUsersProfileResponse = await profileRes.json();
 
+		// fetch user's all playlists
+		let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] = [];
+		const userPlaylistsRes = await fetch('/api/spotify/me/playlists?limit=50');
+		
+    if (userPlaylistsRes.ok) {
+			const userPlaylistsResJSON: SpotifyApi.ListOfCurrentUsersPlaylistsResponse =
+				await userPlaylistsRes.json();
+			userAllPlaylists = userPlaylistsResJSON.items;
+		}
+
 		return {
-			user: profile
+			user: profile,
+			userAllPlaylists
 		};
 	}
 
