@@ -5,6 +5,7 @@
 
 	let searchInput: HTMLInputElement;
 
+  // pre-populate the search query by url params query
 	$: searchQuery = $page.params.query || '';
 
 	afterNavigate(() => {
