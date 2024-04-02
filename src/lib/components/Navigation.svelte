@@ -8,7 +8,7 @@
 	import { beforeNavigate } from '$app/navigation';
 
 	export let desktop: boolean;
-  export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
+	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 
 	// state to keep track navigation is for mobile or desktop
 	let isMobileMenuOpen = false;
@@ -68,7 +68,7 @@
 	});
 </script>
 
-<!-- stop body from scolling when mobile menu is opened -->
+<!-- stop body from scrolling when mobile menu is opened -->
 <svelte:head>
 	{#if !desktop && isMobileMenuOpen}
 		<style>
@@ -86,6 +86,9 @@
 			on:click={closeMenu}
 			on:keyup={handleEscape}
 			transition:fade={{ duration: 200 }}
+			role="button"
+			aria-label="Close menu"
+      tabindex="0"
 		/>
 	{/if}
 	<nav aria-label="Main">
@@ -104,6 +107,9 @@
 			class:is-hidden={!isOpen}
 			style:visibility={isOpen ? 'visible' : 'hidden'}
 			on:keyup={handleEscape}
+      role="button"
+			aria-label="Close menu"
+      tabindex="0"
 		>
 			{#if !desktop}
 				<IconButton
@@ -115,31 +121,44 @@
 					class="close-menu-button"
 				/>
 			{/if}
-			<img src={logo} class="logo" alt="Spotify" />
-			<ul>
-				{#each menuItems as item, index}
-					{@const iconProps = {
-						focusable: 'false',
-						'aria-hidden': true,
-						color: 'var(--text-color)',
-						size: 26,
-						strokeWidth: 2
-					}}
-					<li class:active={item.path === $page.url.pathname}>
-						{#if menuItems.length === index + 1}
-							<a bind:this={lastFocusableElement} href={item.path} on:keydown={moveFocusToTop}>
-								<svelte:component this={item.icon} {...iconProps} />
-								{item.label}</a
-							>
-						{:else}
-							<a href={item.path}>
-								<svelte:component this={item.icon} {...iconProps} />
-								{item.label}</a
-							>
-						{/if}
-					</li>
-				{/each}
-			</ul>
+			<div class="logo-and-menu">
+				<img src={logo} class="logo" alt="Spotify" />
+				<ul>
+					{#each menuItems as item, index}
+						{@const iconProps = {
+							focusable: 'false',
+							'aria-hidden': true,
+							color: 'var(--text-color)',
+							size: 26,
+							strokeWidth: 2
+						}}
+						<li class:active={item.path === $page.url.pathname}>
+							{#if menuItems.length === index + 1}
+								<a bind:this={lastFocusableElement} href={item.path} on:keydown={moveFocusToTop}>
+									<svelte:component this={item.icon} {...iconProps} />
+									{item.label}</a
+								>
+							{:else}
+								<a href={item.path}>
+									<svelte:component this={item.icon} {...iconProps} />
+									{item.label}</a
+								>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</div>
+			{#if userAllPlaylists && userAllPlaylists.length > 0}
+				<div class="all-playlists">
+					<ul>
+						{#each userAllPlaylists as playlist}
+							<li class:active={$page.url.pathname === `/playlist/${playlist.id}`}>
+								<a href="/playlist/{playlist.id}">{playlist.name}</a>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 		</div>
 	</nav>
 </div>
