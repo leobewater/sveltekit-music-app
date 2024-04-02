@@ -30,6 +30,7 @@
 	// $: console.log(scrollY, topbar && topbar.offsetHeight);
 
 	$: user = data.user;
+	$: userAllPlaylists = data.userAllPlaylists;
 
 	afterNavigate(() => {
 		NProgress.done();
@@ -57,7 +58,7 @@
 <div id="main">
 	{#if user}
 		<div id="sidebar">
-			<Navigation desktop={true} />
+			<Navigation desktop={true} {userAllPlaylists} />
 		</div>
 	{/if}
 	<div id="content">
@@ -68,7 +69,7 @@
 					style:background-color={$page.data.color ? $page.data.color : 'var(--header-color)'}
 					style:opacity={`${headerOpacity}`}
 				/>
-				<Header />
+				<Header {userAllPlaylists} />
 			</div>
 		{/if}
 		<main id="main-content" class:logged-in={user}>
