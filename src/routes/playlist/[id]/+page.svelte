@@ -104,6 +104,7 @@
 							await applyAction(result);
 						}
 						followButton.focus();
+            invalidateAll();
 					};
 				}}
 			>
