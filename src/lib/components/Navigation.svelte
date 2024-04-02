@@ -88,7 +88,7 @@
 			transition:fade={{ duration: 200 }}
 			role="button"
 			aria-label="Close menu"
-      tabindex="0"
+			tabindex="0"
 		/>
 	{/if}
 	<nav aria-label="Main">
@@ -107,9 +107,9 @@
 			class:is-hidden={!isOpen}
 			style:visibility={isOpen ? 'visible' : 'hidden'}
 			on:keyup={handleEscape}
-      role="button"
+			role="button"
 			aria-label="Close menu"
-      tabindex="0"
+			tabindex="0"
 		>
 			{#if !desktop}
 				<IconButton
@@ -184,13 +184,29 @@
 			width: 130px;
 		}
 		.nav-content-inner {
-			padding: 20px;
 			min-width: var(--sidebar-width);
 			background-color: var(--sidebar-color);
 			height: 100vh;
-			overflow: auto;
 			display: none;
-
+			.logo-and-menu {
+				padding: 20px 20px 0;
+			}
+			.all-playlists {
+				flex: 1;
+				overflow: auto;
+				padding: 15px 20px;
+				border-top: 1px solid var(--border);
+				ul {
+					list-style: none;
+					margin: 0;
+					li {
+						margin: 0 0 5px;
+						a {
+							margin: 0;
+						}
+					}
+				}
+			}
 			// reference html.no-js .nav-content .nav-content-inner
 			:global(html.no-js) & {
 				@include breakpoint.down('md') {
@@ -236,7 +252,8 @@
 			top: 0;
 			.nav-content-inner {
 				@include breakpoint.up('md') {
-					display: block;
+					display: flex;
+					flex-direction: column;
 				}
 			}
 		}
@@ -258,7 +275,8 @@
 				opacity: 0;
 			}
 			@include breakpoint.down('md') {
-				display: block;
+				display: flex;
+				flex-direction: column;
 			}
 		}
 		:global(.menu-button) {
