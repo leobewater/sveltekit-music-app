@@ -34,16 +34,16 @@ export const load: PageLoad = async ({ fetch: _fetch, params, parent, depends, r
 		title: artistResJSON.name,
 		artist: artistResJSON,
 		artistAlbums: albumsRes.ok
-			? (albumsRes.json() as Promise<SpotifyApi.ArtistsAlbumsResponse>)
+			? (await albumsRes.json() as SpotifyApi.ArtistsAlbumsResponse)
 			: undefined,
 		artistAppearsOn: appearsOnRes.ok
-			? (appearsOnRes.json() as Promise<SpotifyApi.ArtistsAlbumsResponse>)
+			? (await appearsOnRes.json() as SpotifyApi.ArtistsAlbumsResponse)
 			: undefined,
 		artistTopTracks: topTracksRes.ok
-			? (topTracksRes.json() as Promise<SpotifyApi.ArtistsTopTracksResponse>)
+			? (await topTracksRes.json() as SpotifyApi.ArtistsTopTracksResponse)
 			: undefined,
 		artistRelatedArtists: relatedArtistsRes.ok
-			? (relatedArtistsRes.json() as Promise<SpotifyApi.ArtistsRelatedArtistsResponse>)
+			? (await relatedArtistsRes.json() as SpotifyApi.ArtistsRelatedArtistsResponse)
 			: undefined,
 		color: colorRes?.ok ? colorRes.json().then((r) => r.color) : null
 	};
